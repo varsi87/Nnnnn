@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>پنل 🇩🇪 آلمان | PUBGメAZVIX</title>
+<style>
+:root{--accent:#14b8a6;--accent2:#f97316;--card:rgba(12,18,34,0.95);--text:#e2e8f0;--muted:#94a3b8;--border:#14b8a655}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,"Segoe UI",sans-serif;background:linear-gradient(145deg,#05080f,#0c1222);color:var(--text);min-height:100vh;line-height:1.65;padding:14px}
+.wrap{max-width:780px;margin:0 auto}
+header{text-align:center;padding:18px;background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:12px}
+header h1{font-size:1.3rem;background:linear-gradient(90deg,var(--accent),#60a5fa,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.badge{display:inline-block;margin-top:8px;padding:4px 12px;border:1px solid var(--accent);border-radius:999px;font-size:0.75rem;color:var(--accent)}
+.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+.nav button{padding:10px 16px;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;cursor:pointer;font-weight:700;font-size:0.88rem;font-family:inherit}
+.nav button.active,.nav button:hover{background:linear-gradient(135deg,#14b8a633,#f9731628);border-color:var(--accent)}
+.tab{display:none}.tab.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.card h2{font-size:1.05rem;color:var(--accent);margin-bottom:10px}
+label{display:block;font-size:0.82rem;color:var(--muted);margin:8px 0 4px}
+input,textarea{width:100%;padding:10px;background:#0a1020;border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:0.95rem}
+textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;text-align:left}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.btn{padding:11px 14px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.86rem;margin:3px;display:inline-flex;align-items:center;gap:5px}
+.btn:disabled{opacity:0.45;cursor:not-allowed}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#05080f}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-d{background:rgba(239,68,68,0.15);border:1px solid #ef4444;color:#fca5a5}
+.btn-s{background:rgba(34,197,94,0.15);border:1px solid #22c55e;color:#86efac}
+.btn-w{background:rgba(245,158,11,0.15);border:1px solid #f59e0b;color:#fcd34d}
+.btn-g{background:linear-gradient(135deg,#f43f5e,#fb923c);color:#fff}
+.cfg{background:rgba(10,16,32,0.8);border-radius:12px;padding:12px;margin:10px 0;border:1px solid rgba(255,255,255,0.08)}
+.cfg strong{color:var(--accent)}
+.meta{font-size:0.84rem;color:var(--muted);line-height:1.8}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:#0a1220;border:1px solid var(--accent);padding:12px 18px;border-radius:12px;z-index:99;opacity:0;transition:0.3s;font-weight:600;max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.quota{height:8px;border-radius:999px;background:#0f172a;overflow:hidden;margin-top:6px;border:1px solid rgba(255,255,255,0.08)}
+.quota>div{height:100%;border-radius:999px}
+.owner{color:#a78bfa;font-size:0.85rem;font-weight:700}
+.note{font-size:0.78rem;color:var(--muted);margin-top:10px;padding:10px;background:rgba(245,158,11,0.1);border-radius:8px;border-right:3px solid #f59e0b}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🛡️ پنل 🇩🇪 آلمان</h1>
+    <p style="color:var(--muted);margin-top:6px;font-size:0.9rem">پنل مستقل PUBGメAZVIX | سرور اصلی گیمینگ</p>
+    <span class="badge">مالک PUBGメAZVIX</span>
+  </header>
+
+  <div class="nav">
+    <button type="button" class="active" data-tab="dash">📊 داشبورد</button>
+    <button type="button" data-tab="create">➕ ساخت کانفیگ</button>
+    <button type="button" data-tab="configs">📂 کانفیگ‌ها</button>
+    <button type="button" data-tab="sub">🔗 لینک ساب</button>
+  </div>
+
+  <div id="tab-dash" class="tab active">
+    <div class="card">
+      <h2>📊 داشبورد این پنل</h2>
+      <div class="meta" id="statusMeta">...</div>
+      <div class="quota"><div id="quotaFill" style="width:0%"></div></div>
+      <div id="dashList" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="tab-create" class="tab">
+    <div class="card">
+      <h2>➕ ساخت کانفیگ پابجی</h2>
+      <div class="row">
+        <div><label>روز اعتبار</label><input type="number" id="cfgDays" min="1" max="365" value="30"/></div>
+        <div><label>کاربر</label><input type="number" id="cfgUsers" min="1" max="50" value="1"/></div>
+        <div><label>حجم (گیگ)</label><input type="number" id="cfgGB" min="1" max="1000" value="50"/></div>
+      </div>
+      <label>نام کانفیگ</label>
+      <input type="text" id="cfgName" value="iRl_game_germany"/>
+      <div style="margin-top:12px"><button type="button" class="btn btn-p" id="btnCreate">✨ ساخت + دانلود</button></div>
+    </div>
+  </div>
+
+  <div id="tab-configs" class="tab">
+    <div class="card">
+      <h2>📂 کانفیگ‌های ساخته‌شده</h2>
+      <div id="cfgList"></div>
+    </div>
+  </div>
+
+  <div id="tab-sub" class="tab">
+    <div class="card">
+      <h2>🔗 دریافت لینک ساب</h2>
+      <label>لینک ساب صفحه</label>
+      <input type="text" id="subHttps" readonly placeholder="هنوز ساخته نشده" style="direction:ltr;text-align:left;color:#86efac;font-family:monospace;font-size:0.85rem"/>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px">
+        <button type="button" class="btn btn-p" id="btnSubLatest">🚀 لینک آخرین کانفیگ</button>
+        <button type="button" class="btn btn-o" id="btnCopySub">📋 کپی لینک</button>
+      </div>
+      <div id="subCfgList" style="margin-top:14px"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var PANEL = {totalGB:1000, countryName:"آلمان", flag:"🇩🇪", endpoint:"de.stonecoldstunner.ir:8445"};
+  var SERVER_PUBLIC_KEY = "hw8izxup9rk6FzWrWeCQxj+wNmSszp1JH3XmK87auVk=";
+  var STORAGE_KEY = "wg_irl_azvix_2026";
+  var CONFIGS = [];
+  var CONSUMED = 0;
+  var LAST_SUB_URL = "";
+
+  function toast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 3000);
+  }
+
+  function switchTab(id) {
+    document.querySelectorAll(".nav button").forEach(function(b){
+      b.classList.toggle("active", b.getAttribute("data-tab") === id);
+    });
+    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
+    var el = document.getElementById("tab-" + id);
+    if (el) el.classList.add("active");
+    if (id === "dash") renderDash();
+    if (id === "configs") renderList();
+    if (id === "sub") renderSub();
+  }
+
+  document.querySelectorAll(".nav button").forEach(function(btn){
+    btn.addEventListener("click", function(){ switchTab(btn.getAttribute("data-tab")); });
+  });
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var o = JSON.parse(raw);
+        CONFIGS = o.configs || [];
+        CONSUMED = Number(o.consumedGB) || 0;
+        LAST_SUB_URL = o.httpsSubUrl || "";
+      } else { CONFIGS = []; CONSUMED = 0; save(); }
+    } catch (e) { CONFIGS = []; CONSUMED = 0; }
+  }
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ configs: CONFIGS, consumedGB: CONSUMED, httpsSubUrl: LAST_SUB_URL }));
+  }
+
+  function remainingDays(cfg) {
+    if (!cfg) return 0;
+    var endMs = new Date(cfg.createdAt).getTime() + (Number(cfg.days)||30)*86400000;
+    var left = Math.ceil((endMs - Date.now()) / 86400000);
+    return left > 0 ? left : 0;
+  }
+  function isActive(cfg) {
+    if (!cfg || cfg.inSub === false) return false;
+    return remainingDays(cfg) > 0;
+  }
+
+  function toB64(buf) {
+    var b = new Uint8Array(buf), s = "";
+    for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
+    return btoa(s);
+  }
+  function genKeys() {
+    var p = new Uint8Array(32), u = new Uint8Array(32);
+    crypto.getRandomValues(p); crypto.getRandomValues(u);
+    p[0] &= 248; p[31] &= 127; p[31] |= 64;
+    return { privateKey: toB64(p), publicKey: toB64(u) };
+  }
+
+  function buildConf(name, days, gb) {
+    var keys = genKeys();
+    var ipSuffix = 10 + Math.floor(Math.random() * 200);
+    return {
+      conf: [
+        "# iRI Gaming WireGuard | Owner: PUBGメAZVIX",
+        "# Name: " + name,
+        "# Volume: " + gb + "GB",
+        "",
+        "[Interface]",
+        "PrivateKey = " + keys.privateKey,
+        "Address = 10.8.9." + ipSuffix + "/32",
+        "DNS = 1.1.1.1",
+        "MTU = 1280",
+        "",
+        "[Peer]",
+        "PublicKey = " + SERVER_PUBLIC_KEY,
+        "Endpoint = " + PANEL.endpoint,
+        "AllowedIPs = 0.0.0.0/0",
+        "PersistentKeepalive = 25",
+        ""
+      ].join("\n")
+    };
+  }
+
+  function downloadText(text, filename) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type: "application/octet-stream" }));
+    a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText)
+      navigator.clipboard.writeText(text).then(function(){ toast("✅ کپی شد"); });
+  }
+
+  function updateStatus() {
+    var total = PANEL.totalGB;
+    var used = Math.max(0, Number(CONSUMED)||0);
+    var rem = Math.max(0, total - used);
+    document.getElementById("statusMeta").innerHTML =
+      "کشور: 🇩🇪 آلمان<br>حجم مصرفی: <strong style='color:#86efac'>" + used + "</strong> / " + total + " GB<br>" +
+      "کانفیگ‌های فعال: <strong>" + CONFIGS.filter(isActive).length + "</strong><br><span class='owner'>مالک PUBGメAZVIX</span>";
+    var pct = Math.min(100, Math.round((used/total)*100));
+    var fill = document.getElementById("quotaFill");
+    fill.style.width = pct + "%";
+    fill.style.background = "#14b8a6";
+  }
+
+  function renderList() {
+    updateStatus();
+    var list = document.getElementById("cfgList");
+    if (!CONFIGS.length) { list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px">هنوز کانفیگی ساخته نشده است</p>'; return; }
+    var html = "";
+    CONFIGS.forEach(function(cfg, i) {
+      html += '<div class="cfg"><strong>🎮 ' + cfg.name + '</strong><br>' +
+        '<span style="font-size:0.82rem;color:var(--muted)">حجم: ' + cfg.gb + 'GB | روز باقی‌مانده: ' + remainingDays(cfg) + '</span>' +
+        '<div style="margin-top:8px;display:flex;gap:6px">' +
+        '<button class="btn btn-p" onclick="dlCfg(' + i + ')">⬇️ دانلود</button>' +
+        '<button class="btn btn-o" onclick="copyCfg(' + i + ')">📋 کپی</button>' +
+        '<button class="btn btn-d" onclick="delCfg(' + i + ')">🗑️ حذف</button></div></div>';
+    });
+    list.innerHTML = html;
+  }
+
+  function renderDash() { updateStatus(); document.getElementById("dashList").innerHTML = '<p style="color:var(--muted)">سیستم سرور آلمان متصل و آماده است.</p>'; }
+  function renderSub() { updateStatus(); document.getElementById("subHttps").value = LAST_SUB_URL; }
+
+  window.dlCfg = function(i) { var c = CONFIGS[i]; if (c) downloadText(c.confText, c.name + ".conf"); };
+  window.copyCfg = function(i) { var c = CONFIGS[i]; if (c) copyText(c.confText); };
+  window.delCfg = function(i) { if (confirm("حذف شود؟")) { CONFIGS.splice(i, 1); save(); renderList(); renderDash(); toast("حذف شد"); } };
+
+  document.getElementById("btnCreate").addEventListener("click", function(e){
+    e.preventDefault();
+    var rawName = (document.getElementById("cfgName").value || "").trim() || "iRl_game";
+    var days = parseInt(document.getElementById("cfgDays").value, 10) || 30;
+    var gb = parseInt(document.getElementById("cfgGB").value, 10) || 50;
+    
+    var built = buildConf(rawName, days, gb);
+    CONFIGS.unshift({ name: rawName, days: days, gb: gb, confText: built.conf, createdAt: new Date().toISOString() });
+    CONSUMED = Number(CONSUMED) + gb;
+    save();
+    renderList();
+    downloadText(built.conf, rawName + ".conf");
+    toast("✅ کانفیگ سرور آلمان ساخته شد");
+    switchTab("configs");
+  });
+
+  load();
+  renderList();
+})();
+</script>
+</body>
+</html>
