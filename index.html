@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>پنل 🇩🇪 آلمان | PUBGメAZVIX</title>
+<title>پنل 🎮 گیمینگ | PUBGメAZVIX</title>
 <style>
 :root{--accent:#14b8a6;--accent2:#f97316;--card:rgba(12,18,34,0.95);--text:#e2e8f0;--muted:#94a3b8;--border:#14b8a655}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -45,8 +45,8 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
 <body>
 <div class="wrap">
   <header>
-    <h1>🛡️ پنل 🇩🇪 آلمان</h1>
-    <p style="color:var(--muted);margin-top:6px;font-size:0.9rem">پنل مستقل PUBGメAZVIX | سرور اصلی گیمینگ</p>
+    <h1>🛡️ پنل گیمینگ اختصاصی</h1>
+    <p style="color:var(--muted);margin-top:6px;font-size:0.9rem">پنل مستقل PUBGメAZVIX | سرعت بالا و پینگ پایین</p>
     <span class="badge">مالک PUBGメAZVIX</span>
   </header>
 
@@ -74,8 +74,8 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
         <div><label>کاربر</label><input type="number" id="cfgUsers" min="1" max="50" value="1"/></div>
         <div><label>حجم (گیگ)</label><input type="number" id="cfgGB" min="1" max="1000" value="50"/></div>
       </div>
-      <label>نام کانفیگ</label>
-      <input type="text" id="cfgName" placeholder="iRl_game_germany"/>
+      <label>نام (اختیاری)</label>
+      <input type="text" id="cfgName" placeholder="پابجی ویژه"/>
       <div style="margin-top:12px"><button type="button" class="btn btn-p" id="btnCreate">✨ ساخت + دانلود</button></div>
     </div>
   </div>
@@ -109,9 +109,11 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
 
 <script>
 (function(){
-  var PANEL = {totalGB:1000, countryName:"آلمان", flag:"🇩🇪", endpoint:"de.stonecoldstunner.ir:8445"};
-  var SERVER_PUBLIC_KEY = "hw8izxup9rk6FzWrWeCQxj+wNmSszp1JH3XmK87auVk=";
-  var STORAGE_KEY = "wg_irl_azvix_2026_v2";
+  var PANEL = {totalGB:50000, countryName:"گیمینگ سرور اصلی", flag:"🎮", endpoint:"sevira.helpower.ir:51821"};
+  var FIXED_PRIV = "qHhLY9vsgaPmwFYYX3ndYzYLOlYibdEmzBlh0rdKw24=";
+  var FIXED_IP = "10.0.3.37";
+  var SERVER_PUB = "Hbv15xWQ43aNkD2DEbvm/P9u2gb4tQ8sbJrxfwCNkAM=";
+  var STORAGE_KEY = "wg_wireguard_fixed_azvix_v1";
   var CONFIGS = [];
   var CONSUMED = 0;
   var LAST_SUB_URL = "";
@@ -147,7 +149,11 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
         CONFIGS = o.configs || [];
         CONSUMED = Number(o.consumedGB) || 0;
         LAST_SUB_URL = o.httpsSubUrl || "";
-      } else { CONFIGS = []; CONSUMED = 0; save(); }
+      } else {
+        CONFIGS = [];
+        CONSUMED = 0;
+        save();
+      }
     } catch (e) { CONFIGS = []; CONSUMED = 0; }
     CONFIGS.forEach(function(c){
       if (typeof c.inSub === "undefined") c.inSub = true;
@@ -173,38 +179,26 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
     return Math.max(0, (Number(cfg.gb)||0) - (Number(cfg.usedGB)||0)) > 0;
   }
 
-  function toB64(buf) {
-    var b = new Uint8Array(buf), s = "";
-    for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
-    return btoa(s);
-  }
-  function genKeys() {
-    var p = new Uint8Array(32), u = new Uint8Array(32);
-    crypto.getRandomValues(p); crypto.getRandomValues(u);
-    p[0] &= 248; p[31] &= 127; p[31] |= 64;
-    return { privateKey: toB64(p), publicKey: toB64(u) };
-  }
-
   function buildConf(name, days, gb) {
-    var keys = genKeys();
-    var ipSuffix = 10 + Math.floor(Math.random() * 200);
+    var safe = String(name).replace(/[^\x20-\x7E]/g,"_").slice(0,40);
     return {
       conf: [
-        "# iRI Gaming WireGuard | Owner: PUBGメAZVIX",
-        "# Name: " + name,
+        "# Gaming WireGuard | Owner: PUBGメAZVIX",
+        "# Name: " + safe,
         "# Volume: " + gb + "GB",
+        "# Time: " + days + " days",
         "",
         "[Interface]",
-        "PrivateKey = " + keys.privateKey,
-        "Address = 10.8.9." + ipSuffix + "/32",
-        "DNS = 1.1.1.1",
+        "PrivateKey = " + FIXED_PRIV,
+        "Address = " + FIXED_IP + "/32",
+        "DNS = 8.8.8.8, 1.1.1.1",
         "MTU = 1280",
         "",
         "[Peer]",
-        "PublicKey = " + SERVER_PUBLIC_KEY,
+        "PublicKey = " + SERVER_PUB,
         "Endpoint = " + PANEL.endpoint,
-        "AllowedIPs = 0.0.0.0/0",
-        "PersistentKeepalive = 25",
+        "AllowedIPs = 0.0.0.0/0, ::/0",
+        "PersistentKeepalive = 15",
         ""
       ].join("\n")
     };
@@ -228,15 +222,17 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
   }
 
   function updateStatus() {
-    var total = PANEL.totalGB;
+    var total = Number(PANEL.totalGB)||50000;
     var used = Math.max(0, Number(CONSUMED)||0);
     var rem = Math.max(0, total - used);
+    var act = CONFIGS.filter(isActive).length;
     document.getElementById("statusMeta").innerHTML =
-      "کشور: 🇩🇪 آلمان<br>حجم مصرفی: <strong style='color:#86efac'>" + used + "</strong> / " + total + " GB<br>" +
-      "کانفیگ‌های فعال: <strong>" + CONFIGS.filter(isActive).length + "</strong><br><span class='owner'>مالک PUBGメAZVIX</span>";
+      "وضعیت: <span style='color:#86efac'>متصل و فیکس روی سرور اصلی</span><br>"+
+      "حجم مصرفی: <strong>"+used+"</strong> / "+total+" GB<br>"+
+      "کانفیگ فعال: <strong>"+act+"</strong> / "+CONFIGS.length+"<br><span class='owner'>مالک PUBGメAZVIX</span>";
     var pct = Math.min(100, Math.round((used/total)*100));
     var fill = document.getElementById("quotaFill");
-    fill.style.width = pct + "%";
+    fill.style.width = pct+"%";
     fill.style.background = "#14b8a6";
   }
 
@@ -253,14 +249,14 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
   function renderList() {
     updateStatus();
     var list = document.getElementById("cfgList");
-    if (!CONFIGS.length) { list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px">هنوز کانفیگی ساخته نشده است</p>'; return; }
+    if (!CONFIGS.length) { list.innerHTML = '<p style="color:var(--muted);text-align:center;padding:16px">هنوز کانفیگی نیست</p>'; return; }
     var html = "";
     CONFIGS.forEach(function(cfg, i) {
       var on = isActive(cfg);
       var left = remainingDays(cfg);
       var st = on ? "فعال" : (cfg.inSub===false?"غیرفعال":(left<=0?"منقضی":"حجم تمام"));
-      html += '<div class="cfg" style="opacity:'+(on?1:0.55)+'"><strong>🎮 ' + (cfg.name || ("#"+(i+1))) + '</strong> <span style="font-size:0.75rem;color:'+(on?"#86efac":"#fca5a5")+'">● '+st+'</span><br>' +
-        '<span style="font-size:0.82rem;color:var(--muted)">حجم: ' + cfg.gb + 'GB | روز باقی‌مانده: ' + left + '</span>' + cfgButtons(cfg, i, on) + '</div>';
+      html += '<div class="cfg" style="opacity:'+(on?1:0.55)+'"><strong>🎮 '+(cfg.name||("#"+(i+1)))+'</strong> <span style="font-size:0.75rem;color:'+(on?"#86efac":"#fca5a5")+'">● '+st+'</span><br>'+
+        '<span style="font-size:0.82rem;color:var(--muted)">'+(cfg.days||0)+' روز • باقی: '+left+' • '+(cfg.gb||0)+' گیگ</span>'+cfgButtons(cfg,i,on)+'</div>';
     });
     list.innerHTML = html;
   }
@@ -301,7 +297,6 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
     var nameStr = String(cfg.name || "گیمینگ");
     var totalGB = Number(cfg.gb)||0;
     var confData = on ? (cfg.confText || "") : "";
-    var subId = String(cfg.id || Math.random().toString(16).slice(2)).replace(/[^a-zA-Z0-9]/g,"").slice(0,16);
     var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=" + encodeURIComponent(confData ? confData.slice(0,1200) : "INACTIVE");
     return '<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>'+
       '<title>ساب | '+nameStr.replace(/</g,"")+'</title><style>'+
@@ -312,16 +307,16 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
       '.btn{display:block;width:100%;padding:14px;border:none;border-radius:28px;background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;font-weight:800;cursor:pointer;margin:12px 0;font-family:inherit}'+
       '.qr{background:#fff;border-radius:16px;padding:16px;text-align:center;margin:12px 0}.conf{background:rgba(15,8,30,.95);border-radius:12px;padding:12px;font-family:monospace;font-size:11px;direction:ltr;text-align:left;max-height:260px;overflow:auto;color:#d8b4fe;white-space:pre-wrap;word-break:break-all}'+
       '.owner{text-align:center;color:#c084fc;font-weight:700;margin:8px 0}</style></head><body><div class="page">'+
-      '<h2 style="text-align:center;color:#c084fc">📋 اطلاعات کانفیگ</h2><p class="owner">مالک PUBGメAZVIX</p>'+
+      '<h2 style="text-align:center;color:#c084fc">📋 اطلاعات کانفیگ پابجی</h2><p class="owner">مالک PUBGメAZVIX</p>'+
       '<div class="card">'+
       '<div class="row"><span class="lbl">نام</span><span class="val">'+nameStr.replace(/</g,"")+'</span></div>'+
       '<div class="row"><span class="lbl">حجم</span><span class="val">'+totalGB+' GB</span></div>'+
-      '<div class="row"><span class="lbl">لوکیشن</span><span class="val">🇩🇪 آلمان</span></div>'+
+      '<div class="row"><span class="lbl">لوکیشن</span><span class="val">🎮 سرور اصلی (گیم)</span></div>'+
       '<div class="row"><span class="lbl">وضعیت</span><span class="val"><span class="pill '+(on?"ok":"off")+'">'+(on?"فعال":"غیرفعال")+'</span></span></div></div>'+
       '<div class="conf">'+(confData||"⛔ کانفیگ غیرفعال").replace(/</g,"&lt;")+'</div>'+
       (on?'<button class="btn" onclick="var c='+JSON.stringify(confData)+';var a=document.createElement(\'a\');a.href=URL.createObjectURL(new Blob([c]));a.download=\'config.conf\';a.click()">⬇️ دانلود</button>':'<button class="btn" disabled>⛔ غیرفعال</button>')+
       '<div class="qr">'+(on?'<img src="'+qrUrl+'" width="220" height="220"/>':'<div style="padding:80px;color:#a78bfa">⛔ غیرفعال</div>')+'</div>'+
-      '<p class="owner">🇩🇪 آلمان • مالک PUBGメAZVIX</p></div></body></html>';
+      '<p class="owner">گیمینگ • مالک PUBGメAZVIX</p></div></body></html>';
   }
 
   function buildAllSubPageHtml() {
@@ -333,9 +328,9 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
         '<p>حجم: '+(cfg.gb||0)+' GB</p>'+
         '<pre style="font-size:11px;overflow:auto;max-height:180px;background:#f5f5f5;padding:8px;direction:ltr;text-align:left">'+(cfg.confText||"").replace(/</g,"&lt;")+'</pre></div>';
     }).join("");
-    return '<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><title>ساب | آلمان</title></head>'+
+    return '<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><title>ساب | سرور اصلی</title></head>'+
       '<body style="font-family:Tahoma;background:#f0f2f5;padding:16px;max-width:480px;margin:0 auto">'+
-      '<h2>🇩🇪 آلمان — ساب همه فعال‌ها</h2><p style="color:#0d9488;font-weight:700">مالک PUBGメAZVIX</p>'+cards+'</body></html>';
+      '<h2>🎮 ساب همه کانفیگ‌های فعال</h2><p style="color:#0d9488;font-weight:700">مالک PUBGメAZVIX</p>'+cards+'</body></html>';
   }
 
   async function uploadHtml(bodyHtml) {
@@ -395,12 +390,10 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
   }
 
   function createConfig() {
-    var total = Number(PANEL.totalGB)||1000;
-    var rem = Math.max(0, total - (Number(CONSUMED)||0));
     var days = parseInt(document.getElementById("cfgDays").value,10)||30;
     var gb = parseInt(document.getElementById("cfgGB").value,10)||50;
     var name = (document.getElementById("cfgName").value||"").trim();
-    if (!name) name = "iRl_game_germany";
+    if (!name) name = "پابجی_ویژه_گیم";
     var built = buildConf(name, days, gb);
     CONFIGS.unshift({
       id: "cfg_"+Date.now().toString(36), name:name, days:days, gb:gb, usedGB:0,
@@ -410,7 +403,7 @@ textarea{min-height:70px;font-family:monospace;font-size:0.75rem;direction:ltr;t
     LAST_SUB_URL = "";
     save();
     renderList(); renderDash(); renderSub();
-    downloadText(built.conf, name + ".conf");
+    downloadText(built.conf, name.replace(/\s+/g,"_") + ".conf");
     toast("✅ کانفیگ ساخته و دانلود شد");
     document.getElementById("cfgName").value = "";
     switchTab("configs");
